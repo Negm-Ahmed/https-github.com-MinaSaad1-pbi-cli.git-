@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import json
-from typing import Any
+from contextlib import contextmanager
+from typing import Any, Generator
 
 from rich.console import Console
 from rich.panel import Panel
@@ -85,3 +86,36 @@ def format_result(result: Any, json_output: bool) -> None:
         print_key_value("Result", result)
     else:
         console.print(str(result))
+
+
+@contextmanager
+def track_routine(
+    name: str,
+    command: str,
+) -> Generator[None, None, None]:
+    """Context manager to track routine execution time and status.
+
+    Usage:
+        from pbi_cli.core.output import track_routine
+        with track_routine("my_operation", "dax execute 'EVALUATE Sales'"):
+            # your code here
+            pass
+    """
+    from pbi_cli.core.routines import RoutineTracker
+
+    tracker = RoutineTracker()
+    routine_id, start_time = tracker.start_routine(name, command)
+
+    try:
+        yield
+        tracker.end_routine(routine_id, name, command, start_time, success=True)
+    except Exception as e:
+        tracker.end_routine(
+            routine_id,
+            name,
+            command,
+            start_time,
+            success=False,
+            error_message=str(e),
+        )
+        raise

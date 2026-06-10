@@ -76,6 +76,7 @@ def _register_commands() -> None:
     from pbi_cli.commands.relationship import relationship
     from pbi_cli.commands.repl_cmd import repl
     from pbi_cli.commands.report import report
+    from pbi_cli.commands.routines_cmd import routines
     from pbi_cli.commands.security import security_role
     from pbi_cli.commands.setup_cmd import setup
     from pbi_cli.commands.table import table
@@ -106,6 +107,7 @@ def _register_commands() -> None:
     cli.add_command(advanced)
     cli.add_command(repl)
     cli.add_command(report)
+    cli.add_command(routines)
     cli.add_command(visual)
     cli.add_command(filters)
     cli.add_command(format_cmd)
