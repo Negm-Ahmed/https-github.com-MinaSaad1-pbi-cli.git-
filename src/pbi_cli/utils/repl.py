@@ -130,9 +130,18 @@ class PbiRepl:
         except EOFError:
             pass
         finally:
+            from pbi_cli.core.routines import RoutineTracker
             from pbi_cli.core.session import disconnect
 
             disconnect()
+
+            tracker = RoutineTracker()
+            summary = tracker.get_routine_summary()
+            if summary["total"] > 0:
+                print_info(
+                    f"\nRoutines executed: {summary['total']} "
+                    f"({summary['successful']} successful, {summary['failed']} failed)"
+                )
 
         print_info("Goodbye.")
 
