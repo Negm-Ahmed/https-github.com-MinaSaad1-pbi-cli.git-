@@ -149,7 +149,16 @@ def _export_csv(records: list[dict[str, Any]], output_path: Path) -> None:
     if not records:
         return
 
-    fieldnames = ["id", "title", "date", "duration_seconds", "status", "chat_count", "last_prompt", "last_result"]
+    fieldnames = [
+        "id",
+        "title",
+        "date",
+        "duration_seconds",
+        "status",
+        "chat_count",
+        "last_prompt",
+        "last_result",
+    ]
 
     with open(output_path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
