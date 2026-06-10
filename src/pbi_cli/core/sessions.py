@@ -73,9 +73,7 @@ class SessionTracker:
             date = datetime.now().strftime("%Y-%m-%d")
 
         all_sessions = self.get_all_sessions()
-        return [
-            s for s in all_sessions if s["date"].startswith(date)
-        ]
+        return [s for s in all_sessions if s["date"].startswith(date)]
 
     def get_session_summary(self) -> dict[str, Any]:
         """Get summary statistics of all sessions."""
