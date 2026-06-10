@@ -130,8 +130,8 @@ class PbiRepl:
         except EOFError:
             pass
         finally:
-            from pbi_cli.core.session import disconnect
             from pbi_cli.core.routines import RoutineTracker
+            from pbi_cli.core.session import disconnect
 
             disconnect()
 

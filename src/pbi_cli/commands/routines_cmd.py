@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
+from typing import Any
 
 import click
 
@@ -111,20 +112,21 @@ def export_routines(ctx: PbiContext, format: str, output: str | None) -> None:
             _export_csv(records, output_path)
 
         if ctx.json_output:
-            print_json({
+            result: dict[str, str | int] = {
                 "status": "success",
                 "format": format,
                 "output_file": str(output_path.absolute()),
                 "records_exported": len(records),
-            })
+            }
+            print_json(result)
         else:
             print_success(f"Exported {len(records)} routines to {output_path}")
-    except IOError as e:
+    except OSError as e:
         print_error(f"Failed to export: {e}")
         raise SystemExit(1)
 
 
-def _export_json(records: list[dict], output_path: Path) -> None:
+def _export_json(records: list[dict[str, Any]], output_path: Path) -> None:
     """Export records to JSON file."""
     import json
 
@@ -132,7 +134,7 @@ def _export_json(records: list[dict], output_path: Path) -> None:
         json.dump(records, f, indent=2)
 
 
-def _export_csv(records: list[dict], output_path: Path) -> None:
+def _export_csv(records: list[dict[str, Any]], output_path: Path) -> None:
     """Export records to CSV file."""
     if not records:
         return

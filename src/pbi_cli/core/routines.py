@@ -27,8 +27,9 @@ class RoutineTracker:
             return []
         try:
             with open(self.routines_file) as f:
-                return json.load(f)
-        except (json.JSONDecodeError, IOError):
+                data = json.load(f)
+                return data if isinstance(data, list) else []
+        except (json.JSONDecodeError, OSError):
             return []
 
     def _save_routines(self, routines: list[dict[str, Any]]) -> None:
